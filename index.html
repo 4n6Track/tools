@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>File Directory</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 40px auto; padding: 20px; }
+        ul { list-style: none; padding: 0; }
+        li { padding: 8px; border-bottom: 1px solid #eee; }
+        li:hover { background: #f5f5f5; }
+        a { text-decoration: none; color: #0366d6; }
+        .folder::before { content: "📁 "; }
+        .file::before { content: "📄 "; }
+    </style>
+</head>
+<body>
+    <h1>📂 File Directory</h1>
+    <ul id="fileList">
+        <!-- Files will be listed here -->
+    </ul>
+
+    <script>
+        // Fetch the directory listing from GitHub API
+        const repo = '4n6Track'; // Replace with your username
+        const repoName = '4n6Track.github.io'; // Replace with your repo name
+        const branch = 'main'; // or 'master'
+
+        async function getDirectory() {
+            try {
+                const response = await fetch(`https://api.github.com/repos/${repo}/${repoName}/contents?ref=${branch}`);
+                const files = await response.json();
+                
+                const list = document.getElementById('fileList');
+                
+                // Sort: folders first, then files
+                files.sort((a, b) => {
+                    if (a.type === 'dir' && b.type !== 'dir') return -1;
+                    if (a.type !== 'dir' && b.type === 'dir') return 1;
+                    return a.name.localeCompare(b.name);
+                });
+
+                files.forEach(file => {
+                    const li = document.createElement('li');
+                    const link = document.createElement('a');
+                    link.href = file.path;
+                    link.textContent = file.name;
+                    li.className = file.type === 'dir' ? 'folder' : 'file';
+                    li.appendChild(link);
+                    list.appendChild(li);
+                });
+            } catch (error) {
+                document.getElementById('fileList').innerHTML = 
+                    '<li>Error loading files. Make sure the repository is public.</li>';
+                console.error('Error:', error);
+            }
+        }
+
+        getDirectory();
+    </script>
+</body>
+</html>
