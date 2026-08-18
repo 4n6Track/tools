@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+<title>스도쿠 프레스 — 온라인 스도쿠</title>
+<meta name="description" content="쉬움부터 마스터까지, 계정을 만들고 기록을 겨루는 온라인 스도쿠" />
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<header class="masthead">
+  <p class="masthead__eyebrow">No. 1 · Est. Today</p>
+  <h1 class="masthead__title">스도쿠 프레스</h1>
+  <p class="masthead__sub">쉬움 · 보통 · 어려움 · 전문가 · 마스터 — 다섯 단계로 겨루는 논리 퍼즐</p>
+
+  <div class="account-bar" id="accountBar">
+    <button class="stamp-btn" id="loginBtn">로그인</button>
+    <button class="stamp-btn stamp-btn--ghost" id="registerBtn">계정 만들기</button>
+  </div>
+</header>
+
+<main>
+  <section class="panel" aria-label="게임 보드">
+    <div class="difficulty-tabs" id="difficultyTabs" role="tablist" aria-label="난이도 선택"></div>
+
+    <div class="game-meta">
+      <span>⏱ <span class="game-meta__timer" id="timerDisplay">00:00</span></span>
+      <span class="game-meta__mistakes">실수 <span id="mistakeCount">0</span></span>
+      <span id="cluesLeft">남은 칸 —</span>
+    </div>
+
+    <div class="board-wrap">
+      <div class="board" id="board" role="grid" aria-label="스도쿠 보드"></div>
+    </div>
+
+    <div class="numpad" id="numpad" aria-label="숫자 입력"></div>
+
+    <div class="controls-row">
+      <button class="stamp-btn" id="newGameBtn">새 퍼즐</button>
+      <button class="stamp-btn stamp-btn--ghost" id="noteToggleBtn">메모 ✎</button>
+      <button class="stamp-btn stamp-btn--ghost" id="eraseBtn">지우개</button>
+      <button class="stamp-btn stamp-btn--red" id="hintBtn">힌트</button>
+    </div>
+  </section>
+
+  <aside style="display:flex; flex-direction:column; gap:20px;">
+    <section class="panel" aria-label="리더보드">
+      <h2 class="panel__title">순위표 — <span id="lbDifficultyLabel">쉬움</span></h2>
+      <ul class="leaderboard-list" id="leaderboardList">
+        <li class="lb-empty">불러오는 중…</li>
+      </ul>
+      <p class="offline-note" id="offlineNote" hidden>
+        Firebase 설정이 되어 있지 않아 계정/순위표 기능이 꺼져 있어요. 퍼즐 풀이는 그대로 이용할 수 있습니다.
+      </p>
+    </section>
+
+    <section class="panel" aria-label="안내">
+      <h2 class="panel__title">사용법</h2>
+      <p style="font-size:13px; line-height:1.7; color:var(--ink-soft); margin:0;">
+        칸을 선택한 뒤 숫자를 입력하세요. 같은 숫자와 같은 줄/구역이 함께 밝아집니다.
+        메모 모드로 후보 숫자를 남길 수 있고, 완성하면 점수가 자동으로 계산돼요.
+        로그인하면 기록이 순위표에 저장됩니다.
+      </p>
+    </section>
+  </aside>
+</main>
+
+<footer>스도쿠 프레스 · 매일 새로운 퍼즐</footer>
+
+<!-- 로그인/회원가입 모달 -->
+<div class="modal-backdrop" id="authModal">
+  <div class="modal">
+    <button class="close-x" id="authCloseBtn" aria-label="닫기">×</button>
+    <h2 class="modal__title" id="authModalTitle">로그인</h2>
+    <div class="field">
+      <label for="authUsername">아이디</label>
+      <input id="authUsername" type="text" autocomplete="username" maxlength="16" />
+    </div>
+    <div class="field">
+      <label for="authPassword">비밀번호</label>
+      <input id="authPassword" type="password" autocomplete="current-password" />
+    </div>
+    <p class="form-error" id="authError"></p>
+    <div class="modal-actions">
+      <button class="stamp-btn stamp-btn--red" id="authSubmitBtn" style="flex:1;">로그인</button>
+    </div>
+    <p class="modal-switch">
+      <span id="authSwitchText">계정이 없으신가요?</span>
+      <button id="authSwitchBtn">계정 만들기</button>
+    </p>
+  </div>
+</div>
+
+<!-- 승리 모달 -->
+<div class="modal-backdrop" id="winModal">
+  <div class="modal win-stamp">
+    <button class="close-x" id="winCloseBtn" aria-label="닫기">×</button>
+    <h2 class="modal__title">완성!</h2>
+    <p class="score-big" id="winScore">0</p>
+    <p class="win-stats" id="winStats"></p>
+    <div class="modal-actions">
+      <button class="stamp-btn stamp-btn--red" id="winNewGameBtn" style="flex:1;">다음 퍼즐</button>
+    </div>
+  </div>
+</div>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>

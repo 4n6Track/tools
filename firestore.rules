@@ -1,0 +1,25 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // 사용자 프로필: 본인만 생성/수정, 누구나 읽기 가능(닉네임 표시용)
+    match /users/{userId} {
+      allow read: if true;
+      allow create: if request.auth != null && request.auth.uid == userId;
+      allow update: if request.auth != null && request.auth.uid == userId;
+      allow delete: if false;
+    }
+
+    // 점수 기록: 로그인한 사용자가 "본인 uid"로만 새 기록 생성 가능
+    // 순위표는 누구나 열람 가능, 수정/삭제는 불가(기록 위변조 방지)
+    match /scores/{scoreId} {
+      allow read: if true;
+      allow create: if request.auth != null
+                    && request.resource.data.uid == request.auth.uid
+                    && request.resource.data.score is number
+                    && request.resource.data.difficulty in ['easy','medium','hard','expert','master'];
+      allow update: if false;
+      allow delete: if false;
+    }
+  }
+}

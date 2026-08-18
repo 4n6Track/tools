@@ -1,0 +1,406 @@
+/* style.css — "퍼즐북(Puzzle Press)" 콘셉트
+   지질 종이 + 활판 인쇄 + 빨간 펜 채점 느낌의 스도쿠 UI
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+:root {
+  --paper: #ede4d3;
+  --paper-dark: #e2d6bd;
+  --card: #f7f1e4;
+  --ink: #1b2a4a;
+  --ink-soft: #3c4a68;
+  --graphite: #55524a;
+  --rule: #c9bc9c;
+  --rule-strong: #1b2a4a;
+  --red-pen: #b23a2e;
+  --red-pen-soft: #d97a6e;
+  --brass: #a8823c;
+  --brass-soft: #cdae72;
+  --shadow: 0 6px 18px rgba(27, 42, 74, 0.14);
+  --radius: 3px;
+  --font-display: 'Fraunces', serif;
+  --font-body: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+}
+
+body {
+  background-image:
+    linear-gradient(var(--paper) 0%, var(--paper) 100%),
+    repeating-linear-gradient(0deg, rgba(27,42,74,0.028) 0px, rgba(27,42,74,0.028) 1px, transparent 1px, transparent 26px);
+  min-height: 100vh;
+}
+
+a { color: inherit; }
+
+.masthead {
+  border-bottom: 3px double var(--rule-strong);
+  padding: 22px 20px 14px;
+  text-align: center;
+  position: relative;
+}
+
+.masthead__eyebrow {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--brass);
+  margin: 0 0 6px;
+}
+
+.masthead__title {
+  font-family: var(--font-display);
+  font-optical-sizing: auto;
+  font-weight: 700;
+  font-size: clamp(34px, 6vw, 56px);
+  margin: 0;
+  letter-spacing: 0.01em;
+}
+
+.masthead__sub {
+  font-size: 12.5px;
+  color: var(--graphite);
+  margin: 6px 0 0;
+  font-style: italic;
+}
+
+.account-bar {
+  position: absolute;
+  right: 20px;
+  top: 22px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+}
+
+@media (max-width: 640px) {
+  .account-bar { position: static; justify-content: center; margin-top: 12px; }
+}
+
+.stamp-btn {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 12.5px;
+  background: var(--card);
+  border: 1.5px solid var(--rule-strong);
+  color: var(--ink);
+  padding: 7px 14px;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+.stamp-btn:hover { transform: translateY(-1px); box-shadow: var(--shadow); }
+.stamp-btn:active { transform: translateY(0); }
+.stamp-btn--ghost { background: transparent; }
+.stamp-btn--red { border-color: var(--red-pen); color: var(--red-pen); }
+
+main {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 28px 18px 80px;
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 28px;
+  align-items: start;
+}
+
+@media (max-width: 860px) {
+  main { grid-template-columns: 1fr; }
+}
+
+.panel {
+  background: var(--card);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 18px;
+}
+
+.panel__title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 15px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin: 0 0 12px;
+  padding-bottom: 8px;
+  border-bottom: 1.5px solid var(--rule-strong);
+  color: var(--ink);
+}
+
+/* 난이도 탭 — 색인 카드 느낌 */
+.difficulty-tabs {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+
+.difficulty-tab {
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  font-weight: 500;
+  padding: 8px 12px;
+  border: 1.5px solid var(--rule);
+  background: var(--paper-dark);
+  color: var(--graphite);
+  border-radius: var(--radius) var(--radius) 0 0;
+  cursor: pointer;
+  border-bottom: none;
+  position: relative;
+  top: 1.5px;
+}
+
+.difficulty-tab.active {
+  background: var(--card);
+  color: var(--ink);
+  border-color: var(--rule-strong);
+  font-weight: 700;
+}
+
+.game-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--ink-soft);
+}
+
+.game-meta__timer { font-weight: 700; color: var(--ink); }
+.game-meta__mistakes { color: var(--red-pen); }
+
+/* 스도쿠 보드 */
+.board-wrap {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  grid-template-rows: repeat(9, 1fr);
+  width: min(94vw, 460px);
+  height: min(94vw, 460px);
+  background: var(--rule-strong);
+  border: 3px solid var(--rule-strong);
+  gap: 1px;
+}
+
+.cell {
+  background: var(--card);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: clamp(15px, 3.4vw, 20px);
+  cursor: pointer;
+  position: relative;
+  user-select: none;
+  color: var(--red-pen);
+}
+
+.cell.given {
+  color: var(--ink);
+  font-weight: 700;
+  background: var(--paper-dark);
+  cursor: default;
+}
+
+.cell:nth-child(3n) { border-right: 2.5px solid var(--rule-strong); }
+.cell:nth-child(9n) { border-right: none; }
+.cell:nth-child(n) { border-bottom: 1px solid var(--rule); }
+
+.board .cell:nth-child(n+19):nth-child(-n+27),
+.board .cell:nth-child(n+46):nth-child(-n+54) { border-bottom: 2.5px solid var(--rule-strong); }
+
+.cell.selected { background: #fff2c9; }
+.cell.peer { background: #f1e6cf; }
+.cell.same-number { background: #e6ddc4; }
+.cell.error { color: var(--red-pen); background: #f6d9d4; animation: shake 0.25s; }
+.cell.hint { color: var(--brass); font-weight: 700; }
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-2px); }
+  75% { transform: translateX(2px); }
+}
+
+.cell .notes {
+  position: absolute;
+  inset: 2px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  font-size: 8.5px;
+  font-family: var(--font-mono);
+  color: var(--graphite);
+  line-height: 1;
+}
+.cell .notes span { display: flex; align-items: center; justify-content: center; }
+
+.numpad {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 6px;
+  max-width: 460px;
+  margin: 0 auto;
+}
+
+.numpad button {
+  font-family: var(--font-mono);
+  font-size: 16px;
+  font-weight: 600;
+  padding: 10px 0;
+  border: 1.5px solid var(--rule-strong);
+  background: var(--card);
+  color: var(--ink);
+  border-radius: var(--radius);
+  cursor: pointer;
+}
+.numpad button:active { background: var(--paper-dark); }
+.numpad button.note-mode { border-color: var(--brass); color: var(--brass); }
+
+.controls-row {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 14px;
+  flex-wrap: wrap;
+}
+
+/* 리더보드 */
+.leaderboard-list { list-style: none; margin: 0; padding: 0; }
+.leaderboard-list li {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 7px 0;
+  border-bottom: 1px dashed var(--rule);
+  font-size: 13.5px;
+}
+.leaderboard-list li:last-child { border-bottom: none; }
+.lb-rank { font-family: var(--font-mono); color: var(--brass); font-weight: 700; width: 20px; }
+.lb-name { flex: 1; font-weight: 600; }
+.lb-score { font-family: var(--font-mono); color: var(--ink-soft); }
+.lb-empty { color: var(--graphite); font-size: 13px; font-style: italic; }
+
+.offline-note {
+  font-size: 11.5px;
+  color: var(--graphite);
+  background: var(--paper-dark);
+  border: 1px dashed var(--rule);
+  padding: 8px 10px;
+  border-radius: var(--radius);
+  margin-top: 10px;
+}
+
+/* 모달 */
+.modal-backdrop {
+  position: fixed; inset: 0;
+  background: rgba(27, 42, 74, 0.45);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+  padding: 16px;
+}
+.modal-backdrop.open { display: flex; }
+
+.modal {
+  background: var(--card);
+  border: 2px solid var(--rule-strong);
+  border-radius: var(--radius);
+  box-shadow: 0 20px 40px rgba(27,42,74,0.3);
+  width: 100%;
+  max-width: 360px;
+  padding: 22px;
+}
+
+.modal__title {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 700;
+  margin: 0 0 14px;
+}
+
+.field { margin-bottom: 12px; }
+.field label { display: block; font-size: 12px; color: var(--graphite); margin-bottom: 4px; }
+.field input {
+  width: 100%;
+  padding: 9px 10px;
+  border: 1.5px solid var(--rule);
+  border-radius: var(--radius);
+  font-family: var(--font-body);
+  font-size: 14px;
+  background: var(--paper);
+  color: var(--ink);
+}
+.field input:focus { outline: 2px solid var(--brass); outline-offset: 1px; }
+
+.form-error {
+  color: var(--red-pen);
+  font-size: 12.5px;
+  margin: -4px 0 10px;
+  min-height: 16px;
+}
+
+.modal-actions { display: flex; gap: 8px; margin-top: 6px; }
+.modal-switch { font-size: 12.5px; text-align: center; margin-top: 12px; color: var(--graphite); }
+.modal-switch button { background: none; border: none; color: var(--ink); text-decoration: underline; cursor: pointer; font-size: 12.5px; padding: 0; }
+
+.win-stamp {
+  text-align: center;
+}
+.win-stamp .score-big {
+  font-family: var(--font-display);
+  font-size: 44px;
+  font-weight: 700;
+  color: var(--red-pen);
+  margin: 6px 0;
+  transform: rotate(-2deg);
+}
+.win-stats { font-family: var(--font-mono); font-size: 13px; color: var(--ink-soft); margin-bottom: 14px; }
+
+.close-x {
+  position: absolute;
+  top: 10px;
+  right: 14px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: var(--graphite);
+}
+.modal { position: relative; }
+
+footer {
+  text-align: center;
+  font-size: 11.5px;
+  color: var(--graphite);
+  padding: 20px;
+  font-family: var(--font-mono);
+}
+
+.visually-hidden {
+  position: absolute; width: 1px; height: 1px;
+  overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cell.error { animation: none; }
+  .stamp-btn { transition: none; }
+}
