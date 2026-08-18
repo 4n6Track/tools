@@ -18,10 +18,9 @@ const firebaseConfig = {
     measurementId: "G-HXXBJ0EJRS"
   };
 
-// firebaseConfig 가 아직 채워지지 않았으면 온라인 기능(계정/리더보드)을 비활성화하고
-// 퍼즐 플레이 자체는 오프라인으로 계속 동작하도록 한다.
+// ✅ FIX THIS LINE - check if it's STILL a placeholder
 export const isFirebaseConfigured =
-  !firebaseConfig.apiKey.startsWith('AIzaSyBdCDFljBDwO0O27LfAu2VTRbl6r7tdvtk');
+  !firebaseConfig.apiKey.startsWith('YOUR_');  // ← CHANGE BACK TO 'YOUR_'
 
 export let app = null;
 export let auth = null;
