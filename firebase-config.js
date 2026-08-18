@@ -7,14 +7,16 @@ import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.13.0/fireba
 import { getAuth } from 'https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js';
 import { getFirestore } from 'https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js';
 
-export const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_PROJECT_ID.appspot.com",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId: "YOUR_APP_ID",
-};
+const firebaseConfig = {
+    apiKey: "AIzaSyBdCDFljBDwO0O27LfAu2VTRbl6r7tdvtk",
+    authDomain: "sudoku-press.firebaseapp.com",
+    databaseURL: "https://sudoku-press-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "sudoku-press",
+    storageBucket: "sudoku-press.firebasestorage.app",
+    messagingSenderId: "987974840985",
+    appId: "1:987974840985:web:722ac993642ed58aa4fe08",
+    measurementId: "G-HXXBJ0EJRS"
+  };
 
 // firebaseConfig 가 아직 채워지지 않았으면 온라인 기능(계정/리더보드)을 비활성화하고
 // 퍼즐 플레이 자체는 오프라인으로 계속 동작하도록 한다.
